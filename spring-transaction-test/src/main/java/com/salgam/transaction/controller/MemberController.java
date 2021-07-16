@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.salgam.transaction.api.ApiMessage;
 import com.salgam.transaction.domain.Member;
+import com.salgam.transaction.service.ErrorTestService;
 import com.salgam.transaction.service.MemberService;
 
 
@@ -17,9 +18,12 @@ import com.salgam.transaction.service.MemberService;
 public class MemberController {
 	
 	private final MemberService memberService;
+	private final ErrorTestService errorTestService;
 	
-	MemberController(MemberService memberService) {
+	
+	MemberController(MemberService memberService,ErrorTestService errorTestService) {
 		this.memberService = memberService;
+		this.errorTestService = errorTestService;
 	}
 
 	@PostMapping("/member/{name}")
@@ -51,6 +55,33 @@ public class MemberController {
 	@GetMapping("/members/{id}/{name}")
 	public ApiMessage<Member> updateMember( @PathVariable int id, @PathVariable String name ) {
 		return ApiMessage.succeed( memberService.updateMember(id, name) );
+	}
+	
+	
+	@PostMapping("transaction/test/members_1/{name}")
+	public ApiMessage<Member> transactionTest1(@PathVariable String name ) {
+		return ApiMessage.succeed( errorTestService.addMember1(name));
+	}
+	@PostMapping("transaction/test/members_2/{name}")
+	public ApiMessage<Member> transactionTest2(@PathVariable String name ) {
+		return ApiMessage.succeed( errorTestService.addMember2(name));
+	}
+	
+	
+	@PostMapping("transaction/test/members_3/{name}")
+	public ApiMessage<Member> transactionTest3(@PathVariable String name ) {
+		return ApiMessage.succeed( errorTestService.addMember3(name));
+	}
+	
+	@PostMapping("transaction/test/members_3_throw/{name}")
+	public ApiMessage<Member> transactionTestThrow3(@PathVariable String name ) throws Exception {
+		return ApiMessage.succeed( errorTestService.addMember3_Throw(name));
+	}
+	
+	
+	@PostMapping("transaction/test/members_4/{name}")
+	public ApiMessage<Member> transactionTest4(@PathVariable String name ) {
+		return ApiMessage.succeed( errorTestService.addMember4(name));
 	}
 	
 }

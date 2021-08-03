@@ -1,0 +1,40 @@
+server:
+  port: 8080
+#  servlet:
+#    context-path: /file
+spring:
+  datasource:
+#    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+#    테스트는 여기서. 사실 스프링 부트는 별 설정이 없으면 메모리 db로 돌린다.
+    url: jdbc:h2:mem:test
+    driver-class-name : org.h2.Driver
+    username : sa
+    password : 
+  devtools: 
+    livereload:
+      enabled: true
+  freemarker:
+    cache: false
+  thymeleaf:
+    cache: false
+  h2:
+    console:
+      enabled : true
+      path  : /h2-console
+  jpa:
+    database-platform : org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        show_sql : true 
+        format_sql : true
+    hibernate:
+      ddl-auto: create
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace   
+        SQL : debug
+#logging:
+#  level:   
+#    org.hibernate.SQL : debug
